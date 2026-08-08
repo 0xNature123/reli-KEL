@@ -177,6 +177,22 @@ treibt. Wer einen Abschnitt ergänzen will, muss zuerst sagen, welchen er dafür
 kürzt. Die Telefonnummer steht bewusst mehrfach auf der Seite und ist überall
 ein `tel:`-Verweis: einmal tippen und es klingelt, niemand muss abschreiben.
 
+**Bewegung.** Es gibt genau drei Sorten, alle ohne JavaScript. Erstens
+Zustandswechsel beim Bedienen: Knöpfe geben beim Drücken nach, das Plus in den
+Fragen dreht sich zum Kreuz, das Menü klappt über `grid-template-rows: 0fr → 1fr`
+auf. Zweitens der Auftritt des Hero beim Laden. Drittens scrollgesteuerte
+Einblendungen über `animation-timeline: view()` und das mitwachsende Seil über
+`animation-timeline: scroll()`. Alles steckt in `@media (prefers-reduced-motion:
+no-preference)` und `@supports` – wer Bewegung abbestellt hat oder einen älteren
+Browser nutzt, bekommt dieselbe Seite ohne jede Bewegung, nie eine leere.
+
+Eine Kurve für alles: `--ease`. Eine Dauer für alles: `--tempo`. Neue Effekte
+nur mit denselben beiden Werten, sonst zerfällt der Eindruck. Was sich nicht
+bedienen lässt, bewegt sich auch nicht – Überschriften und Fließtext bleiben
+ruhig. `--radius: 3px` liegt auf Knöpfen und Bildern; Abschnitte, Trennlinien
+und die Knoten der Seillinie bleiben hart. Diese Mischung ist die Handschrift,
+gleichmäßige Abrundung überall wäre Baukasten.
+
 **Verbotsliste.** Stockfotos mit Klemmbrett; drei gleich hohe abgerundete Karten
 mit Schlagschatten nebeneinander; Farbverläufe; Icon-Bibliothek-Symbole für
 alles; Überschriften wie „Ihr zuverlässiger Partner rund um Haus und Garten";

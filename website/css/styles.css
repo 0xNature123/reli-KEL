@@ -47,6 +47,14 @@
   --seil-x: 24px;      /* Position der Seillinie */
   --rand: 24px;
   --kopf-hoehe: 64px;
+
+  /* Eine Beschleunigungskurve für die ganze Seite. Bewegungen, die alle
+     derselben Kurve folgen, wirken wie aus einer Hand. */
+  --ease: cubic-bezier(.22, .61, .21, 1);
+  --tempo: .2s;
+  /* Gerade so viel Rundung, dass nichts abgeschnitten wirkt.
+     Abschnitte und Knoten bleiben hart – das ist die Handschrift. */
+  --radius: 3px;
 }
 
 /* ---------- Grundlagen ---------- */
@@ -69,8 +77,11 @@ body {
   overflow-x: hidden;
 }
 
-/* Signaturelement: die Seillinie, läuft durch die gesamte Seite */
-body::before {
+/* Signaturelement: die Seillinie, läuft durch die gesamte Seite.
+   ::before ist das ruhende Seil, ::after das bereits abgerollte Stück –
+   es wächst beim Scrollen mit und macht aus der Seite einen Abseilvorgang. */
+body::before,
+body::after {
   content: '';
   position: absolute;
   left: var(--seil-x);
@@ -81,6 +92,7 @@ body::before {
   z-index: 1;
   pointer-events: none;
 }
+body::before { opacity: .3; }
 
 img { max-width: 100%; height: auto; display: block; }
 
@@ -89,7 +101,11 @@ a { color: inherit; }
 :focus-visible {
   outline: 3px solid var(--signal);
   outline-offset: 3px;
+  border-radius: 1px;
 }
+
+::selection { background: var(--signal); color: var(--tanne); }
+:root { accent-color: var(--signal); }
 
 .skip {
   position: absolute;
@@ -104,7 +120,13 @@ a { color: inherit; }
 .skip:focus { left: 0; }
 
 /* ---------- Typografie ---------- */
-h1, h2, h3 { font-family: var(--display); font-weight: 800; margin: 0 0 .5em; }
+h1, h2, h3 {
+  font-family: var(--display);
+  font-weight: 800;
+  margin: 0 0 .5em;
+  /* verteilt Überschriften gleichmäßig auf die Zeilen statt eine Waise zu lassen */
+  text-wrap: balance;
+}
 
 h1 {
   font-size: 34px;
@@ -132,6 +154,8 @@ p { margin: 0 0 1em; max-width: 68ch; }
   line-height: 1.4;
   letter-spacing: .08em;
   text-transform: uppercase;
+  /* Ziffern gleich breit – Preise und Maße stehen dadurch sauber untereinander */
+  font-variant-numeric: tabular-nums;
 }
 
 .klein { font-size: 16px; }
@@ -188,7 +212,11 @@ p { margin: 0 0 1em; max-width: 68ch; }
   display: inline-flex;
   align-items: center;
   border: 2px solid var(--signal);
+  border-radius: var(--radius);
   color: var(--nebel);
+  transition:
+    background-color var(--tempo) var(--ease),
+    color            var(--tempo) var(--ease);
 }
 .kopf__tel:hover { background: var(--signal); color: var(--tanne); }
 
@@ -218,10 +246,42 @@ p { margin: 0 0 1em; max-width: 68ch; }
   justify-content: center;
   cursor: pointer;
   border: 1px solid rgba(242, 244, 241, .3);
+  border-radius: var(--radius);
+  transition:
+    background-color var(--tempo) var(--ease),
+    border-color     var(--tempo) var(--ease),
+    color            var(--tempo) var(--ease);
+}
+/* Offener Zustand ist am Knopf selbst ablesbar */
+.menue-schalter:checked + .menue-knopf {
+  background: var(--signal);
+  border-color: var(--signal);
+  color: var(--tanne);
 }
 
-.nav { order: 4; width: 100%; display: none; }
-.menue-schalter:checked ~ .nav { display: block; }
+/* Klappt auf, statt zu erscheinen. 0fr → 1fr ist der einzige Weg,
+   eine unbekannte Höhe ohne JavaScript zu animieren. */
+.nav {
+  /* Hängt unter der Kopfleiste, statt sie auseinanderzuschieben –
+     sonst wächst die Leiste schon im geschlossenen Zustand mit. */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--tanne);
+  border-bottom: 1px solid rgba(242, 244, 241, .12);
+  padding: 0 var(--rand);
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition:
+    grid-template-rows .3s var(--ease),
+    visibility         .3s var(--ease);
+}
+.menue-schalter:checked ~ .nav {
+  grid-template-rows: 1fr;
+  visibility: visible;
+}
 
 .nav ul {
   list-style: none;
@@ -229,6 +289,8 @@ p { margin: 0 0 1em; max-width: 68ch; }
   padding: 8px 0 12px;
   display: flex;
   flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
 }
 .nav a {
   display: block;
@@ -240,8 +302,23 @@ p { margin: 0 0 1em; max-width: 68ch; }
   font-size: 13px;
   letter-spacing: .08em;
   text-transform: uppercase;
+  position: relative;
 }
-.nav a:hover { color: var(--signal); }
+/* Orange bleibt Akzentlinie, wird nie Textfarbe */
+.nav a::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  bottom: 8px;
+  height: 2px;
+  background: var(--signal);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .24s var(--ease);
+}
+.nav a:hover::after,
+.nav a:focus-visible::after { transform: scaleX(1); }
 
 /* ---------- Hero ---------- */
 .hero {
@@ -313,13 +390,28 @@ p { margin: 0 0 1em; max-width: 68ch; }
   font-size: 18px;
   text-decoration: none;
   border: 2px solid transparent;
+  border-radius: var(--radius);
+  transition:
+    background-color var(--tempo) var(--ease),
+    border-color     var(--tempo) var(--ease),
+    color            var(--tempo) var(--ease),
+    transform        .1s           var(--ease);
 }
 .knopf--voll  { background: var(--signal); color: var(--tanne); }
 .knopf--rahmen{ border-color: currentColor; color: var(--nebel); background: none; }
 .knopf--dunkel{ background: var(--tanne); color: var(--nebel); }
 /* Rahmenknopf auf hellem Grund */
 .knopf--dunkelrahmen { color: var(--tanne); border-color: var(--tanne); }
-.knopf:hover  { filter: brightness(.94); }
+
+/* Hover füllt oder vertieft, statt pauschal die Helligkeit zu drehen */
+.knopf--voll:hover        { background: color-mix(in srgb, var(--signal) 86%, #000); }
+.knopf--rahmen:hover      { background: color-mix(in srgb, var(--nebel) 14%, transparent); }
+.knopf--dunkelrahmen:hover{ background: var(--tanne); color: var(--nebel); }
+.knopf--dunkel:hover      { background: color-mix(in srgb, var(--tanne) 82%, #fff); }
+
+/* Der Knopf gibt beim Drücken nach – kleinste Rückmeldung, größte Wirkung */
+.knopf:hover  { transform: translateY(-1px); }
+.knopf:active { transform: translateY(1px); transition-duration: .04s; }
 
 /* Anrufknopf trägt die Nummer sichtbar mit – niemand soll sie abtippen müssen */
 .knopf--anruf {
@@ -403,6 +495,7 @@ p { margin: 0 0 1em; max-width: 68ch; }
   max-width: 260px;
   aspect-ratio: 4 / 5;
   object-fit: cover;
+  border-radius: var(--radius);
 }
 .person__text h2 { margin-bottom: .3em; }
 .person__text > p { color: var(--stahl); }
@@ -421,7 +514,16 @@ p { margin: 0 0 1em; max-width: 68ch; }
 /* ---------- 01 Leistungen: Blöcke untereinander, kein Kachelraster ---------- */
 .leistung {
   border-top: 1px solid var(--linie);
-  padding: 24px 0;
+  padding: 24px 16px 24px 0;
+  margin: 0 -16px 0 0;
+  transition:
+    background-color var(--tempo) var(--ease),
+    border-top-color var(--tempo) var(--ease);
+}
+/* Die Zeile unter dem Zeiger hebt sich ab, ohne zur Karte zu werden */
+.leistung:hover {
+  background: color-mix(in srgb, var(--signal) 5%, transparent);
+  border-top-color: var(--signal);
 }
 .leistung h3 { margin-bottom: .35em; }
 .leistung p  { color: var(--stahl); margin-bottom: .6em; }
@@ -459,6 +561,7 @@ p { margin: 0 0 1em; max-width: 68ch; }
   width: 100%;
   max-height: 420px;
   object-fit: cover;
+  border-radius: var(--radius);
 }
 .foto figcaption {
   font-family: var(--mono);
@@ -528,6 +631,7 @@ p { margin: 0 0 1em; max-width: 68ch; }
 }
 .kalender-platzhalter {
   border: 2px dashed rgba(27, 42, 36, .45);
+  border-radius: var(--radius);
   padding: 28px 20px;
   text-align: center;
   font-family: var(--mono);
@@ -575,9 +679,18 @@ details summary::after {
   color: var(--signal);
   font-size: 26px;
   line-height: 1;
+  transform-origin: center;
+  transition: transform .25s var(--ease);
 }
-details[open] summary::after { content: '–'; }
-details p { color: var(--stahl); padding-bottom: 18px; margin: 0; }
+/* Das Plus dreht sich zum Kreuz, statt hart zu tauschen */
+details[open] summary::after { transform: rotate(135deg); }
+details summary { transition: color var(--tempo) var(--ease); }
+details summary:hover { color: var(--stahl); }
+details p {
+  color: var(--stahl);
+  padding-bottom: 18px;
+  margin: 0;
+}
 
 /* ---------- Footer ---------- */
 .fuss {
@@ -667,9 +780,11 @@ details p { color: var(--stahl); padding-bottom: 18px; margin: 0; }
 }
 
 /* =========================================================
-   Ab 900 px – Navigation immer sichtbar, keine Anrufleiste
+   Ab 1080 px – Navigation immer sichtbar, keine Anrufleiste.
+   Darunter bleibt der Menüknopf: sechs Punkte plus Marke plus
+   Nummer passen unter 1080 px nicht in eine Zeile.
    ========================================================= */
-@media (min-width: 900px) {
+@media (min-width: 1080px) {
   /* Text und Foto nebeneinander statt untereinander – spart Höhe */
   .seil__innen {
     display: grid;
@@ -680,8 +795,19 @@ details p { color: var(--stahl); padding-bottom: 18px; margin: 0; }
   .seil__innen .foto { margin: 0; }
 
   .menue-knopf, .menue-schalter { display: none; }
-  .nav { display: block; order: 2; width: auto; }
-  .nav ul { flex-direction: row; gap: 24px; padding: 0; }
+  /* Auf dem Desktop keine Klappmechanik – Navigation steht immer offen */
+  .nav {
+    position: static;
+    display: block;
+    order: 2;
+    width: auto;
+    padding: 0;
+    background: none;
+    border-bottom: 0;
+    grid-template-rows: none;
+    visibility: visible;
+  }
+  .nav ul { flex-direction: row; gap: 20px; padding: 0; overflow: visible; }
   .nav a { padding: 8px 0; min-height: 0; }
   .kopf__tel { order: 3; font-size: 14px; margin-left: 16px; }
 
@@ -700,13 +826,87 @@ details p { color: var(--stahl); padding-bottom: 18px; margin: 0; }
   .kopf__tel { font-size: 12px; letter-spacing: .04em; }
 }
 
+/* Auf schmalen Geräten schrumpft die Kopfleiste auf das Hörer-Symbol.
+   Die Nummer steht dort dauerhaft in der Anrufleiste am unteren Rand. */
+.nur-breit { display: none; }
+
+@media (max-width: 559px) {
+  .kopf__tel {
+    padding: 12px;
+    width: 48px;
+    justify-content: center;
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 560px) {
+  .nur-breit { display: inline; }
+}
+
 @media (max-width: 480px) {
   :root { --seil-x: 8px; --rand: 20px; }
 }
 
 /* =========================================================
-   Bewegung reduzieren
+   Bewegung
+   Grundsatz: die Seite bewegt sich nur dort, wo Bewegung etwas
+   erklärt – beim Ankommen, beim Bedienen, beim Abwärtsscrollen.
+   Alles steht komplett hinter prefers-reduced-motion; wer Bewegung
+   abbestellt hat, bekommt exakt dieselbe Seite, nur ruhig.
    ========================================================= */
+@keyframes auftritt {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes seil-abrollen {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+@keyframes heranfahren {
+  from { transform: scale(1); }
+  to   { transform: scale(1.07); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* Der Hero baut sich einmal von oben nach unten auf */
+  .hero__inhalt > * { animation: auftritt .55s var(--ease) backwards; }
+  .hero__inhalt > :nth-child(1) { animation-delay: .06s; }
+  .hero__inhalt > :nth-child(2) { animation-delay: .14s; }
+  .hero__inhalt > :nth-child(3) { animation-delay: .22s; }
+  .hero__inhalt > :nth-child(4) { animation-delay: .30s; }
+  .hero__inhalt > :nth-child(5) { animation-delay: .38s; }
+
+  /* Das Hintergrundfoto fährt kaum merklich heran, damit der
+     Bildschirm beim Ankommen nicht tot wirkt */
+  .hero__bild { animation: heranfahren 30s var(--ease) forwards; }
+
+  /* Scrollgesteuert und damit ohne JavaScript. Browser ohne
+     Unterstützung zeigen die Inhalte einfach unbewegt – nichts
+     bleibt unsichtbar hängen. */
+  @supports (animation-timeline: view()) {
+    .leistung,
+    .schritte li,
+    .foto,
+    .nachweise > div,
+    .person__bild {
+      animation: auftritt .6s var(--ease) both;
+      animation-timeline: view();
+      animation-range: entry 4% entry 42%;
+    }
+  }
+
+  /* Das Seil rollt beim Scrollen ab. Darunter bleibt das ruhende
+     Seil sichtbar, damit oben keine Lücke entsteht. */
+  @supports (animation-timeline: scroll()) {
+    body::after {
+      transform-origin: top;
+      animation: seil-abrollen linear forwards;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
@@ -721,7 +921,14 @@ details p { color: var(--stahl); padding-bottom: 18px; margin: 0; }
    ========================================================= */
 @media print {
   .kopf, .anrufleiste, .nav, .menue-knopf { display: none; }
-  body::before, .abschnitt::before { display: none; }
+  body::before, body::after, .abschnitt::before { display: none; }
+  /* Scrollgesteuerte Effekte kennen beim Drucken keinen Scrollstand –
+     ohne das hier bliebe halbe Seite weiß */
+  *, *::before, *::after {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
   .abschnitt--dunkel, .fuss, .abschnitt--signal {
     background: #fff; color: #000;
   }
