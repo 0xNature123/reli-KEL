@@ -177,14 +177,22 @@ treibt. Wer einen Abschnitt ergänzen will, muss zuerst sagen, welchen er dafür
 kürzt. Die Telefonnummer steht bewusst mehrfach auf der Seite und ist überall
 ein `tel:`-Verweis: einmal tippen und es klingelt, niemand muss abschreiben.
 
-**Bewegung.** Es gibt genau drei Sorten, alle ohne JavaScript. Erstens
-Zustandswechsel beim Bedienen: Knöpfe geben beim Drücken nach, das Plus in den
-Fragen dreht sich zum Kreuz, das Menü klappt über `grid-template-rows: 0fr → 1fr`
-auf. Zweitens der Auftritt des Hero beim Laden. Drittens scrollgesteuerte
-Einblendungen über `animation-timeline: view()` und das mitwachsende Seil über
+**Bewegung.** Zwei Sorten, beide ohne JavaScript. Erstens Zustandswechsel beim
+Bedienen: Knöpfe geben beim Drücken nach, das Plus in den Fragen dreht sich zum
+Kreuz, das Menü klappt über `grid-template-rows: 0fr → 1fr` auf. Zweitens der
+Auftritt des Hero beim Laden und das mitwachsende Seil über
 `animation-timeline: scroll()`. Alles steckt in `@media (prefers-reduced-motion:
-no-preference)` und `@supports` – wer Bewegung abbestellt hat oder einen älteren
-Browser nutzt, bekommt dieselbe Seite ohne jede Bewegung, nie eine leere.
+no-preference)`.
+
+**Keine Einblendungen beim Scrollen – und das bleibt so.** Es gab kurzzeitig eine
+Variante mit `animation-timeline: view()`, die Inhalte bis zum Eintritt in den
+Sichtbereich auf `opacity: 0` setzte. Läuft die Seite in einem Rahmen, der selbst
+nicht scrollt – Vorschau, Einbettung, manche Seitenaufbauten –, ist diese
+Zeitleiste untätig, und die Inhalte blieben dauerhaft unsichtbar. **Die
+Sichtbarkeit von Text darf nie an einer Animation hängen.** Das mitwachsende Seil
+ist die einzige scrollgesteuerte Ausnahme, weil darunter das ruhende Seil in
+voller Länge liegt: kommt das Abrollen nicht in Gang, sieht die Linie trotzdem
+richtig aus und es fehlt kein Inhalt.
 
 Eine Kurve für alles: `--ease`. Eine Dauer für alles: `--tempo`. Neue Effekte
 nur mit denselben beiden Werten, sonst zerfällt der Eindruck. Was sich nicht
