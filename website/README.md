@@ -124,7 +124,18 @@ Die wichtigste Zahl ist `klick_anruf`. Bei 20–60 Besuchern im Monat ist jede
 Prozentzahl allerdings Zufallsrauschen – bis etwa 300 Besucher monatlich ist die
 verlässlichere Messung eine Frage am Telefon: „Wie sind Sie auf mich gekommen?"
 
-### 8. Symbole
+### 8. Suchmaschinen
+
+`robots.txt` und `sitemap.xml` liegen bereit – in beiden Dateien `[domain]`
+ersetzen, in der Sitemap zusätzlich `<lastmod>` bei jeder inhaltlichen Änderung
+aktualisieren. Nach dem Onlinegang die Domain in der Google Search Console
+eintragen und die Startseite zur Indexierung melden.
+
+Titel und Beschreibung sind auf Länge getrimmt (57 bzw. 151 Zeichen). Wenn du
+`[Ort]` durch einen langen Ortsnamen ersetzt, beides nachzählen: Titel höchstens
+60, Beschreibung 140–160 Zeichen.
+
+### 9. Symbole
 
 `favicon.ico` (32×32), `icon.svg` und `apple-touch-icon.png` ins Wurzel-
 verzeichnis legen. Die Verweise stehen bereits im `<head>`.

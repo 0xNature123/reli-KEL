@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Nach jeder inhaltlichen Änderung das Datum in <lastmod> anpassen.
+  [domain] durch die echte Domain ersetzen.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://[domain].de/</loc>
+    <lastmod>2026-08-08</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://[domain].de/impressum.html</loc>
+    <lastmod>2026-08-08</lastmod>
+    <priority>0.1</priority>
+  </url>
+  <url>
+    <loc>https://[domain].de/datenschutz.html</loc>
+    <lastmod>2026-08-08</lastmod>
+    <priority>0.1</priority>
+  </url>
+</urlset>
