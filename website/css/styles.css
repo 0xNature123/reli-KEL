@@ -179,14 +179,18 @@ p { margin: 0 0 1em; max-width: 68ch; }
   color: var(--linie);
 }
 
+/* Sieht aus wie eine Schaltfläche, damit klar ist: hier tippen und es klingelt */
 .kopf__tel {
   text-decoration: none;
   font-size: 13px;
-  padding: 12px 4px;
+  padding: 12px 14px;
   min-height: 48px;
   display: inline-flex;
   align-items: center;
+  border: 2px solid var(--signal);
+  color: var(--nebel);
 }
+.kopf__tel:hover { background: var(--signal); color: var(--tanne); }
 
 /* Schalter bleibt für die Tastatur erreichbar, ist aber unsichtbar */
 .menue-schalter {
@@ -313,7 +317,26 @@ p { margin: 0 0 1em; max-width: 68ch; }
 .knopf--voll  { background: var(--signal); color: var(--tanne); }
 .knopf--rahmen{ border-color: currentColor; color: var(--nebel); background: none; }
 .knopf--dunkel{ background: var(--tanne); color: var(--nebel); }
+/* Rahmenknopf auf hellem Grund */
+.knopf--dunkelrahmen { color: var(--tanne); border-color: var(--tanne); }
 .knopf:hover  { filter: brightness(.94); }
+
+/* Anrufknopf trägt die Nummer sichtbar mit – niemand soll sie abtippen müssen */
+.knopf--anruf {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 64px;
+  padding: 10px 26px;
+  line-height: 1.15;
+}
+.knopf__zeile1 { font-size: 18px; }
+.knopf__zeile2 {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: .06em;
+}
 
 /* ---------- Abschnitte ---------- */
 .abschnitt {
@@ -364,6 +387,37 @@ p { margin: 0 0 1em; max-width: 68ch; }
   margin-top: 32px;
 }
 
+/* ---------- Vertrauensband: Gesicht, Name, direkter Draht ---------- */
+.person {
+  padding: 40px 0;
+  border-bottom: 1px solid var(--linie);
+}
+.person__innen {
+  display: grid;
+  gap: 24px;
+  align-items: center;
+}
+.person__bild { margin: 0; }
+.person__bild img {
+  width: 100%;
+  max-width: 260px;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+.person__text h2 { margin-bottom: .3em; }
+.person__text > p { color: var(--stahl); }
+.kanaele {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0 0;
+  max-width: none;
+}
+
+@media (min-width: 700px) {
+  .person__innen { grid-template-columns: 260px 1fr; gap: 40px; }
+}
+
 /* ---------- 01 Leistungen: Blöcke untereinander, kein Kachelraster ---------- */
 .leistung {
   border-top: 1px solid var(--linie);
@@ -400,7 +454,12 @@ p { margin: 0 0 1em; max-width: 68ch; }
 }
 
 .foto { margin: 32px 0 0; }
-.foto img { width: 100%; }
+/* Fotos sollen die Seite tragen, nicht in die Länge ziehen */
+.foto img {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+}
 .foto figcaption {
   font-family: var(--mono);
   font-weight: 500;
@@ -487,8 +546,10 @@ p { margin: 0 0 1em; max-width: 68ch; }
   line-height: 1.1;
   letter-spacing: -0.02em;
   text-decoration: none;
-  margin: 4px 0 10px;
+  margin: 0 0 10px;
+  padding: 6px 0;
 }
+.telefon-gross:hover { text-decoration: underline; }
 
 /* ---------- 07 Fragen: aufklappbar ohne JavaScript ---------- */
 details {
@@ -597,7 +658,7 @@ details p { color: var(--stahl); padding-bottom: 18px; margin: 0; }
   .hero__unter { font-size: 21px; }
   .telefon-gross { font-size: 44px; }
 
-  .termin__zeile { grid-template-columns: 1.2fr 1fr; align-items: center; }
+  .termin__zeile { grid-template-columns: 1fr 1fr; align-items: center; }
   .fuss__gitter { grid-template-columns: repeat(3, 1fr); }
   .leistung { display: grid; grid-template-columns: 1fr auto; gap: 8px 40px; }
   .leistung h3 { grid-column: 1; }
@@ -609,6 +670,15 @@ details p { color: var(--stahl); padding-bottom: 18px; margin: 0; }
    Ab 900 px – Navigation immer sichtbar, keine Anrufleiste
    ========================================================= */
 @media (min-width: 900px) {
+  /* Text und Foto nebeneinander statt untereinander – spart Höhe */
+  .seil__innen {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .seil__innen .foto { margin: 0; }
+
   .menue-knopf, .menue-schalter { display: none; }
   .nav { display: block; order: 2; width: auto; }
   .nav ul { flex-direction: row; gap: 24px; padding: 0; }

@@ -35,6 +35,7 @@ Ersetzen über alle drei HTML-Dateien:
 | `[domain]` | deine Domain ohne `.de` |
 | `[Nummer]` | Telefonnummer in Anzeigeform |
 | `+49151XXXXXXX` | Telefonnummer in `tel:`-Form, ohne Leerzeichen |
+| `49151XXXXXXX` | dieselbe Nummer in den `wa.me`-Verweisen, **ohne** führendes Plus |
 | `[konto]` | Cal.com-Benutzername |
 | `[Versicherer]`, `[Nummer]` | Betriebshaftpflicht |
 
@@ -68,11 +69,15 @@ Systemschriften zurück – sie funktioniert, sieht aber nicht fertig aus.
 | Motiv | Format | Verwendung | Datei |
 |---|---|---|---|
 | Du am Seil in der Krone | quer 16:9 | Hero | `img/hero.webp` |
-| Portrait in Arbeitskleidung | hoch 4:5 | Qualifikation | `img/portrait.webp` |
+| **Portrait in Arbeitskleidung** | hoch 4:5 | **Vertrauensband unter dem Hero** | `img/portrait.webp` |
 | Steilhang oder enge Bebauung | quer 3:2 | Warum am Seil | `img/steilhang.webp` |
-| Vorher / Nachher je Objekt | quer 3:2 | Referenzen | `img/ref-1-vorher.webp` … |
-| Detail: Pilzkörper, Rissbild | quer 3:2 | Baumkontrolle | `img/detail.webp` |
-| Aufgeräumte Fläche nach Arbeit | quer 3:2 | Ablauf | `img/aufgeraeumt.webp` |
+| **Aufgeräumte Fläche nach Arbeit** | quer 3:2 | **Ablauf, unter Schritt 3** | `img/aufgeraeumt.webp` |
+| Vorher / Nachher je Objekt | quer 3:2 | Referenzen (noch inaktiv) | `img/ref-1-vorher.webp` … |
+| Detail: Pilzkörper, Rissbild | quer 3:2 | noch nicht eingebaut | `img/detail.webp` |
+
+Die vier fett markierten Bilder sind eingebaut. Das Portrait ist das
+wichtigste Vertrauenselement der Seite und steht deshalb jetzt ganz oben,
+nicht mehr unten bei der Qualifikation.
 
 Vorgaben: WebP, JPG als Rückfall. Hero maximal 1920 px breit und unter 250 kB,
 Inhaltsbilder maximal 1200 px und unter 120 kB. Breite und Höhe stehen bereits
@@ -163,6 +168,14 @@ ein 9-px-Quadrat um 45 Grad gedreht (`.abschnitt::before`). Das ist das eine
 mutige Element – solange es da ist, braucht die Seite keine Farbverläufe, keine
 Scroll-Animationen, keine Icon-Kacheln und keine Schlagschatten. Jede
 zusätzliche Idee schwächt die eine, die trägt.
+
+**Vertrauen und Aufwand.** Zwei Regeln, an denen jede spätere Änderung gemessen
+wird. Erstens: Vertrauen entsteht durch Gesicht, Namen, konkrete Zahlen und
+offen genannte Nachteile – nicht durch mehr Sätze. Zweitens: jeder Klick, jeder
+Tastendruck und jede gelesene Zeile ist Aufwand, den ein Teil der Besucher nicht
+treibt. Wer einen Abschnitt ergänzen will, muss zuerst sagen, welchen er dafür
+kürzt. Die Telefonnummer steht bewusst mehrfach auf der Seite und ist überall
+ein `tel:`-Verweis: einmal tippen und es klingelt, niemand muss abschreiben.
 
 **Verbotsliste.** Stockfotos mit Klemmbrett; drei gleich hohe abgerundete Karten
 mit Schlagschatten nebeneinander; Farbverläufe; Icon-Bibliothek-Symbole für

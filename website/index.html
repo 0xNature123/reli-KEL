@@ -69,12 +69,38 @@
   <div class="hero__inhalt">
     <p class="augenbraue mono">Baumpflege · Baumkontrolle · Gartenservice</p>
     <h1>Baumpflege am Seil in&nbsp;[Ort] und Umgebung</h1>
-    <p class="hero__unter">Auch dort, wo kein Hubsteiger hinkommt. Kostenlose Besichtigung, Festpreis vor Beginn.</p>
+    <p class="hero__unter">Auch dort, wo kein Hubsteiger hinkommt.</p>
     <p class="knoepfe">
-      <a class="knopf knopf--voll" href="#termin">Besichtigung buchen</a>
-      <a class="knopf knopf--rahmen" href="tel:+49151XXXXXXX">☎&nbsp;0151&nbsp;[Nummer]</a>
+      <!-- Anrufen ist die wichtigste Handlung der Seite und deshalb der orange Knopf -->
+      <a class="knopf knopf--voll knopf--anruf" href="tel:+49151XXXXXXX">
+        <span class="knopf__zeile1">☎&nbsp;Jetzt anrufen</span>
+        <span class="knopf__zeile2">0151&nbsp;[Nummer]</span>
+      </a>
+      <a class="knopf knopf--rahmen" href="#termin">Termin online buchen</a>
     </p>
     <p class="streifen mono">Einsatzgebiet 25&nbsp;km <span>|</span> Festpreis <span>|</span> Versichert 3&nbsp;Mio&nbsp;€</p>
+  </div>
+</section>
+
+<!-- ========== VERTRAUENSBAND ==========
+     Das Gesicht mit Namen ist laut Bauplan das wichtigste Vertrauenselement.
+     Deshalb steht es direkt hinter dem Hero und nicht erst in Abschnitt 05. -->
+<section class="abschnitt abschnitt--hell person">
+  <div class="spalte person__innen">
+    <figure class="person__bild">
+      <!-- Ersetzen: img/portrait.webp, hoch 4:5. Echtes Foto in Arbeitskleidung. -->
+      <img src="img/platzhalter.svg" alt="[Vorname Nachname] in Arbeitskleidung mit Kletterausrüstung" width="800" height="1000" loading="lazy">
+    </figure>
+    <div class="person__text">
+      <p class="nummer mono">Ihr Ansprechpartner</p>
+      <h2>Ich klettere selbst.</h2>
+      <p>[Vorname Nachname] aus [Ort]. Kein Subunternehmer – wer das Angebot
+        macht, steht auch im Baum.</p>
+      <p class="kanaele">
+        <a class="knopf knopf--voll" href="tel:+49151XXXXXXX">☎&nbsp;0151&nbsp;[Nummer]</a>
+        <a class="knopf knopf--rahmen knopf--dunkelrahmen" href="https://wa.me/49151XXXXXXX?text=Hallo%2C%20ich%20h%C3%A4tte%20gern%20eine%20kostenlose%20Besichtigung.%20Meine%20Adresse%3A%20">Per WhatsApp</a>
+      </p>
+    </div>
   </div>
 </section>
 
@@ -85,65 +111,57 @@
     <h2>Leistungen</h2>
 
     <article class="leistung">
-      <h3>Baumpflege &amp; Fällung in Seilklettertechnik</h3>
-      <p>Kronenpflege, Totholzentnahme, Einkürzung und vollständige Fällung –
-        seilgesichert und ohne schweres Gerät auf dem Grundstück.
-        Der Baum wird stückweise abgetragen und kontrolliert abgelassen.</p>
+      <h3>Baumpflege &amp; Fällung am Seil</h3>
+      <p>Kronenpflege, Totholz, Einkürzung, Fällung – ohne schweres Gerät auf dem Grundstück.</p>
       <p class="preis mono">ab 400 €</p>
     </article>
 
     <article class="leistung">
       <h3>Baumkontrolle &amp; Verkehrssicherheit</h3>
-      <p>Regelkontrolle des Baumbestandes nach FLL-Richtlinie, vom Boden aus
-        und bei Bedarf im Kronenbereich. Jeder Baum wird einzeln erfasst:
-        Nummer, Befund, Maßnahme, Frist – schriftlich und nachvollziehbar.</p>
+      <p>Jeder Baum einzeln erfasst: Nummer, Befund, Maßnahme, Frist. Schriftlich.</p>
       <p class="preis mono">ab 6 € / Baum</p>
     </article>
 
     <article class="leistung">
       <h3>Hecken- und Formschnitt</h3>
-      <p>Rückschnitt und Formschnitt von Hecken, Sträuchern und Solitären,
-        auch mehrere Meter hoch. Schnittzeitpunkt nach § 39 BNatSchG,
-        Rücksicht auf Brutzeiten inklusive.</p>
+      <p>Auch mehrere Meter hoch. Schnittzeitpunkt nach § 39 BNatSchG.</p>
       <p class="preis mono">ab 6 € / lfm</p>
     </article>
 
     <article class="leistung">
       <h3>Wurzel- und Stubbenfräsen</h3>
-      <p>Reste nach der Fällung werden bis unter das Geländeniveau abgefräst.
-        Die Fläche ist danach wieder bepflanzbar oder befahrbar.
-        Frässpäne bleiben auf Wunsch als Mulch vor Ort.</p>
+      <p>Bis unter das Geländeniveau. Fläche danach wieder bepflanzbar.</p>
       <p class="preis mono">ab 150 €</p>
     </article>
 
     <article class="leistung">
-      <h3>Rasenpflege im festen Rhythmus</h3>
-      <p>Mähen, Kantenschnitt und Abfuhr in festem Turnier – wöchentlich,
-        vierzehntägig oder nach Absprache. Fester Termin, feste Person,
-        feste Rechnung ohne Überraschungen.</p>
+      <h3>Rasenpflege im festen Turnus</h3>
+      <p>Fester Termin, feste Person, feste Rechnung.</p>
       <p class="preis mono">ab 45 € / Termin</p>
     </article>
 
-    <p class="hinweis">Alle Preise sind Anhaltswerte. Verbindlich wird der Festpreis nach der
-      kostenlosen Besichtigung. Kleinunternehmer nach § 19 UStG, daher keine Ausweisung
-      der Umsatzsteuer.</p>
+    <!-- Unangenehmes offen nennen wirkt glaubwürdiger als jedes Versprechen -->
+    <p class="hinweis">Festpreis nach der kostenlosen Besichtigung.
+      Anfahrt über 25 km: 0,50 €/km. Kleinunternehmer nach § 19 UStG.</p>
   </div>
 </section>
 
 <!-- ========== 02 WARUM AM SEIL ========== -->
 <section class="abschnitt abschnitt--dunkel" id="seil">
-  <div class="spalte">
-    <p class="nummer mono">02</p>
-    <h2>Warum am Seil</h2>
+  <div class="spalte seil__innen">
+    <div>
+      <p class="nummer mono">02</p>
+      <h2>Warum am Seil</h2>
 
-    <p class="vorspann">Vier Situationen, in denen der Hubsteiger ausfällt:</p>
-    <ul class="liste">
-      <li>Steilhang und Böschung – keine tragfähige Aufstellfläche.</li>
-      <li>Enge Bebauung ohne Stellplatz – die Maschine kommt nicht heran.</li>
-      <li>Krone direkt über Gebäude oder Leitung – kein Ausleger reicht sicher darüber.</li>
-      <li>Weicher Untergrund – Rasen, Beet und Drainage würden zerfahren.</li>
-    </ul>
-    <p>Am Seil wird der Baum stückweise abgetragen und kontrolliert abgelassen.</p>
+      <p class="vorspann">Vier Situationen, in denen der Hubsteiger ausfällt:</p>
+      <ul class="liste">
+        <li>Steilhang und Böschung</li>
+        <li>Enge Bebauung ohne Stellplatz</li>
+        <li>Krone über Gebäude oder Leitung</li>
+        <li>Weicher Untergrund</li>
+      </ul>
+      <p>Am Seil wird der Baum stückweise abgetragen und kontrolliert abgelassen.</p>
+    </div>
 
     <figure class="foto">
       <!-- Ersetzen: img/steilhang.webp, quer 3:2, max. 1200 px, unter 120 kB -->
@@ -167,15 +185,21 @@
       <li>
         <span class="schritt-nr mono">02</span>
         <h3>Festpreisangebot</h3>
-        <p>Schriftlich innerhalb von 48 Stunden. Keine Stundenabrechnung,
-          keine Nachträge ohne Absprache.</p>
+        <p>Schriftlich in 48 Stunden. Keine Stundenabrechnung, keine Nachträge.</p>
       </li>
       <li>
         <span class="schritt-nr mono">03</span>
         <h3>Ausführung</h3>
-        <p>Zum vereinbarten Termin, Abtransport und Aufräumen inklusive.</p>
+        <p>Abtransport und Aufräumen inklusive.</p>
       </li>
     </ol>
+
+    <!-- Das Ergebnisbild gehört zu Schritt 3 und ersetzt die Beschreibung -->
+    <figure class="foto">
+      <!-- Ersetzen: img/aufgeraeumt.webp, quer 3:2, max. 1200 px, unter 120 kB -->
+      <img src="img/platzhalter.svg" alt="Aufgeräumte Rasenfläche nach der Fällung, Schnittgut vollständig abgefahren" width="1200" height="800" loading="lazy">
+      <figcaption>So sieht es aus, wenn ich gehe</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -232,15 +256,8 @@
 
     <p class="versicherung">
       <span class="mono">Betriebshaftpflicht · Deckungssumme 3 Mio €</span><br>
-      [Versicherer], Police [Nummer]. Nachweis wird auf Anforderung vor
-      Auftragsvergabe schriftlich vorgelegt.
+      [Versicherer], Police [Nummer]. Nachweis auf Anforderung.
     </p>
-
-    <figure class="foto foto--portrait">
-      <!-- Ersetzen: img/portrait.webp, hoch 4:5. Echtes Foto in Arbeitskleidung. -->
-      <img src="img/platzhalter.svg" alt="[Vorname Nachname] in Arbeitskleidung mit Kletterausrüstung" width="800" height="1000" loading="lazy">
-      <figcaption>[Vorname Nachname], [Ort]</figcaption>
-    </figure>
   </div>
 </section>
 
@@ -250,10 +267,18 @@
     <p class="nummer mono">06</p>
     <h2>Termin buchen</h2>
 
-    <p class="vorspann">Hier buchst du die kostenlose Besichtigung.
-      Den Arbeitstermin stimmen wir danach ab.</p>
+    <p class="vorspann">Kostenlos und unverbindlich. Der Arbeitstermin kommt später.</p>
 
     <div class="termin__zeile">
+      <div class="termin__telefon">
+        <a class="telefon-gross" href="tel:+49151XXXXXXX">☎ 0151 [Nummer]</a>
+        <p class="klein">Tippen genügt. Werktags 8–18 Uhr –
+          wenn ich im Baum bin, rufe ich zurück.</p>
+        <p>
+          <a class="knopf knopf--rahmen knopf--dunkelrahmen" href="https://wa.me/49151XXXXXXX?text=Hallo%2C%20ich%20h%C3%A4tte%20gern%20eine%20kostenlose%20Besichtigung.%20Meine%20Adresse%3A%20">Per WhatsApp schreiben</a>
+        </p>
+      </div>
+
       <div class="termin__kalender">
         <!--
           Cal.com einbetten. Einbettungscode aus dem eigenen Cal.com-Konto einsetzen
@@ -265,12 +290,6 @@
           [Cal.com-Einbettung: Besichtigung, 20 Minuten]<br>
           <a class="knopf knopf--dunkel" href="https://cal.com/[konto]/besichtigung">Termin öffnen</a>
         </p>
-      </div>
-
-      <div class="termin__telefon">
-        <p class="mono klein">Lieber direkt sprechen?</p>
-        <a class="telefon-gross" href="tel:+49151XXXXXXX">0151 [Nummer]</a>
-        <p class="klein">Werktags 8–18 Uhr. Wenn ich im Baum bin, rufe ich zurück.</p>
       </div>
     </div>
   </div>
@@ -284,63 +303,42 @@
 
     <details>
       <summary>Was kostet die Fällung eines Baumes?</summary>
-      <p>Das hängt von Höhe, Standort und Abtransport ab. Ein freistehender Baum
-        ist günstiger als einer über dem Wintergarten. Üblich sind ab 400 € für
-        eine Fällung am Seil. Verbindlich wird der Preis nach der kostenlosen
-        Besichtigung – als Festpreis, nicht nach Stunden.</p>
+      <p>Je nach Höhe, Standort und Abtransport – üblich sind ab 400 €. Verbindlich wird der Festpreis nach der kostenlosen Besichtigung, nicht nach Stunden.</p>
     </details>
 
     <details>
       <summary>Brauche ich eine Genehmigung für eine Fällung?</summary>
-      <p>In vielen Gemeinden gilt eine Baumschutzsatzung ab einem bestimmten
-        Stammumfang. Ob dein Baum darunter fällt, kläre ich bei der Besichtigung
-        mit und sage dir, welcher Antrag nötig ist. Ohne Genehmigung wird nicht
-        gefällt.</p>
+      <p>Oft ja, viele Gemeinden haben eine Baumschutzsatzung. Ich kläre das bei der Besichtigung mit. Ohne Genehmigung wird nicht gefällt.</p>
     </details>
 
     <details>
       <summary>Wann darf eine Hecke geschnitten werden?</summary>
-      <p>Ein starker Rückschnitt ist nach § 39 BNatSchG nur vom 1. Oktober bis
-        28. Februar zulässig. Ein schonender Form- und Pflegeschnitt ist auch
-        im Sommer erlaubt, sofern keine Vögel brüten. Das prüfe ich vor
-        Arbeitsbeginn.</p>
+      <p>Starker Rückschnitt nur vom 1. Oktober bis 28. Februar (§ 39 BNatSchG). Pflegeschnitt auch im Sommer, wenn keine Vögel brüten.</p>
     </details>
 
     <details>
       <summary>Wie oft muss ein Baumbestand kontrolliert werden?</summary>
-      <p>Als Eigentümer bist du verkehrssicherungspflichtig. Üblich ist eine
-        Regelkontrolle ein- bis zweimal jährlich, je nach Alter, Zustand und
-        Umfeld des Bestandes. Für Verwaltungen und Betriebe dokumentiere ich
-        jeden Baum einzeln.</p>
+      <p>Ein- bis zweimal jährlich, je nach Alter und Umfeld. Für Verwaltungen dokumentiere ich jeden Baum einzeln.</p>
     </details>
 
     <details>
       <summary>Wer haftet, wenn ein Ast auf ein Fahrzeug fällt?</summary>
-      <p>Grundsätzlich der Eigentümer, wenn er seiner Kontrollpflicht nicht
-        nachgekommen ist. Eine dokumentierte Regelkontrolle ist genau dafür der
-        Nachweis. Meine Arbeiten sind über eine Betriebshaftpflicht mit 3 Mio €
-        Deckungssumme abgesichert.</p>
+      <p>Der Eigentümer, wenn er nicht kontrolliert hat. Eine dokumentierte Regelkontrolle ist genau dieser Nachweis. Meine Arbeiten: 3 Mio € Deckung.</p>
     </details>
 
     <details>
       <summary>Wird das Schnittgut mitgenommen?</summary>
-      <p>Ja, Abtransport und Aufräumen sind im Festpreis enthalten, sofern nicht
-        anders vereinbart. Auf Wunsch bleiben Häcksel als Mulch oder Stammholz
-        als Brennholz auf dem Grundstück – das senkt den Preis.</p>
+      <p>Ja, im Festpreis enthalten. Häcksel oder Brennholz bleiben auf Wunsch da – das senkt den Preis.</p>
     </details>
 
     <details>
       <summary>Arbeiten Sie auch im Winter?</summary>
-      <p>Ja. Das Winterhalbjahr ist für Fällungen und starke Rückschnitte sogar
-        der richtige Zeitraum: keine Brutzeit, kein Laub, bessere Sicht auf die
-        Kronenstruktur. Nur bei Sturm, Eis und Gewitter wird nicht geklettert.</p>
+      <p>Ja, das ist sogar die beste Zeit für Fällungen: keine Brutzeit, kein Laub, freie Sicht in die Krone.</p>
     </details>
 
     <details>
       <summary>In welchen Orten sind Sie tätig?</summary>
-      <p>[Ort 1], [Ort 2], [Ort 3], [Ort 4], [Ort 5], [Ort 6], [Ort 7], [Ort 8]
-        und Umgebung – rund 25 km um [Ort]. Weiter entfernte Aufträge sind nach
-        Absprache möglich, die Anfahrt über 25 km berechne ich mit 0,50 €/km.</p>
+      <p>[Ort 1], [Ort 2], [Ort 3], [Ort 4], [Ort 5], [Ort 6], [Ort 7], [Ort 8] – rund 25 km um [Ort]. Anfahrt darüber hinaus 0,50 €/km.</p>
     </details>
   </div>
 </section>
@@ -448,22 +446,70 @@
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    { "@type": "Question", "name": "Was kostet die Fällung eines Baumes?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Das hängt von Höhe, Standort und Abtransport ab. Üblich sind ab 400 € für eine Fällung am Seil. Verbindlich wird der Preis nach der kostenlosen Besichtigung – als Festpreis, nicht nach Stunden." }},
-    { "@type": "Question", "name": "Brauche ich eine Genehmigung für eine Fällung?",
-      "acceptedAnswer": { "@type": "Answer", "text": "In vielen Gemeinden gilt eine Baumschutzsatzung ab einem bestimmten Stammumfang. Ob der Baum darunter fällt, wird bei der Besichtigung geklärt. Ohne Genehmigung wird nicht gefällt." }},
-    { "@type": "Question", "name": "Wann darf eine Hecke geschnitten werden?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Ein starker Rückschnitt ist nach § 39 BNatSchG nur vom 1. Oktober bis 28. Februar zulässig. Ein schonender Form- und Pflegeschnitt ist auch im Sommer erlaubt, sofern keine Vögel brüten." }},
-    { "@type": "Question", "name": "Wie oft muss ein Baumbestand kontrolliert werden?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Üblich ist eine Regelkontrolle ein- bis zweimal jährlich, je nach Alter, Zustand und Umfeld des Bestandes. Für Verwaltungen und Betriebe wird jeder Baum einzeln dokumentiert." }},
-    { "@type": "Question", "name": "Wer haftet, wenn ein Ast auf ein Fahrzeug fällt?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Grundsätzlich der Eigentümer, wenn er seiner Kontrollpflicht nicht nachgekommen ist. Eine dokumentierte Regelkontrolle ist der Nachweis. Die Arbeiten sind über eine Betriebshaftpflicht mit 3 Mio € Deckungssumme abgesichert." }},
-    { "@type": "Question", "name": "Wird das Schnittgut mitgenommen?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Ja, Abtransport und Aufräumen sind im Festpreis enthalten, sofern nicht anders vereinbart. Auf Wunsch bleiben Häcksel als Mulch oder Stammholz als Brennholz vor Ort." }},
-    { "@type": "Question", "name": "Arbeiten Sie auch im Winter?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Ja. Das Winterhalbjahr ist für Fällungen und starke Rückschnitte der richtige Zeitraum: keine Brutzeit, kein Laub, bessere Sicht auf die Kronenstruktur." }},
-    { "@type": "Question", "name": "In welchen Orten sind Sie tätig?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Im Umkreis von rund 25 km um [Ort]. Weiter entfernte Aufträge sind nach Absprache möglich, die Anfahrt über 25 km wird mit 0,50 €/km berechnet." }}
+    {
+      "@type": "Question",
+      "name": "Was kostet die Fällung eines Baumes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Je nach Höhe, Standort und Abtransport – üblich sind ab 400 €. Verbindlich wird der Festpreis nach der kostenlosen Besichtigung, nicht nach Stunden."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Brauche ich eine Genehmigung für eine Fällung?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oft ja, viele Gemeinden haben eine Baumschutzsatzung. Ich kläre das bei der Besichtigung mit. Ohne Genehmigung wird nicht gefällt."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wann darf eine Hecke geschnitten werden?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Starker Rückschnitt nur vom 1. Oktober bis 28. Februar (§ 39 BNatSchG). Pflegeschnitt auch im Sommer, wenn keine Vögel brüten."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wie oft muss ein Baumbestand kontrolliert werden?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ein- bis zweimal jährlich, je nach Alter und Umfeld. Für Verwaltungen dokumentiere ich jeden Baum einzeln."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wer haftet, wenn ein Ast auf ein Fahrzeug fällt?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Der Eigentümer, wenn er nicht kontrolliert hat. Eine dokumentierte Regelkontrolle ist genau dieser Nachweis. Meine Arbeiten: 3 Mio € Deckung."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wird das Schnittgut mitgenommen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja, im Festpreis enthalten. Häcksel oder Brennholz bleiben auf Wunsch da – das senkt den Preis."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Arbeiten Sie auch im Winter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja, das ist sogar die beste Zeit für Fällungen: keine Brutzeit, kein Laub, freie Sicht in die Krone."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "In welchen Orten sind Sie tätig?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "[Ort 1], [Ort 2], [Ort 3], [Ort 4], [Ort 5], [Ort 6], [Ort 7], [Ort 8] – rund 25 km um [Ort]. Anfahrt darüber hinaus 0,50 €/km."
+      }
+    }
   ]
 }
 </script>
