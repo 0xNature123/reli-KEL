@@ -1,0 +1,10 @@
+Hier die fünf WOFF2-Dateien ablegen:
+
+archivo-700.woff2
+archivo-800.woff2
+ibm-plex-sans-400.woff2
+ibm-plex-sans-500.woff2
+ibm-plex-mono-500.woff2
+
+Von Google Fonts herunterladen und lokal ablegen – niemals per CDN einbinden.
+Zusammen unter 120 kB.
