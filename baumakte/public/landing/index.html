@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BaumAkte — Baumkontrolle dokumentieren, die im Streitfall trägt</title>
+<meta name="description" content="BaumAkte dokumentiert die Regelkontrolle im Feld: 90 Sekunden pro Baum, Foto mit Zeit- und Geostempel, unveränderliches Protokoll, Prüfbericht als PDF. Server in Deutschland.">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#101A33">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23101A33'/%3E%3Cpath d='M32 11 L48 33 L32 53 Z' fill='%235836E0'/%3E%3Cpath d='M32 11 L16 33 L32 53 Z' fill='%238A6BFF'/%3E%3C/svg%3E">
+
+<!--
+  BaumAkte — Landingpage
+  Eine Datei, kein Build-Schritt, keine externen Ressourcen, kein Tracking.
+
+  DOKUMENTIERTE ANNAHMEN (nicht vom Auftraggeber vorgegeben, plausibel gesetzt):
+  - Beta-Programm: 10 Betriebe. Platzhalter ⟨ANZAHL⟩ war offen.
+  - Rechenbeispiel Bürostunde: 65 EUR/h Verrechnungssatz, 2 Stunden Büro pro Objekt.
+  - Kontaktadresse, Telefonnummer und Rechtsseiten sind Platzhalter (/impressum,
+    /datenschutz, /agb, kontakt@baumakte.de).
+  - Abschnitt "Fachliche Begleitung" ist bewusst NICHT enthalten: der fachliche
+    Beirat steht noch nicht fest. Laut Vorgabe wird der Abschnitt dann ganz
+    weggelassen und nicht durch etwas anderes ersetzt. Sobald die Person feststeht,
+    gehoert der Abschnitt zwischen #preise und #keine-stimmen.
+  - "In Vorbereitung" markiert sind Excel-/CSV-Import und Eigentuemer-Zugang:
+    beide sind in der Software noch nicht gebaut und duerfen deshalb nicht als
+    vorhandene Funktion beworben werden.
+
+  SCHRIFT: bewusst Systemschrift-Stack statt Google Fonts (kein Verbindungsaufbau
+  zu Google-Servern, DSGVO). Inter spaeter self-hosted ergaenzen:
+      @font-face{font-family:"Inter";src:url("/fonts/Inter-var.woff2") format("woff2");
+                 font-weight:100 900;font-display:swap;}
+  und "Inter" vorne in --font einsetzen. Keine weitere Aenderung noetig.
+-->
+
+<style>
+:root{
+  /* Marke */
+  --ink:#0A0B0F; --navy-900:#101A33; --navy-700:#1C2B52;
+  --violet-600:#6D4AFF; --violet-700:#5836E0; --violet-50:#F1EDFF;
+  /* Neutral */
+  --white:#FFFFFF; --gray-50:#F7F8FA; --gray-200:#E3E6EC; --gray-500:#5F6675;
+  /* Semantik – nur als kleine Marker, nie als Flaeche */
+  --red:#B3261E; --amber:#A15C00; --green:#1F7A4D;
+
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --radius:10px;
+  --wrap:1080px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0;font-family:var(--font);font-size:17px;line-height:1.6;font-weight:400;
+  color:var(--ink);background:var(--white);
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{line-height:1.25;font-weight:600;margin:0 0 12px;letter-spacing:-.01em}
+h1{font-size:40px}
+h2{font-size:30px}
+h3{font-size:19px}
+p{margin:0 0 16px;max-width:68ch}
+a{color:var(--violet-700)}
+ul{margin:0 0 16px;padding-left:20px}
+li{margin-bottom:8px}
+strong{font-weight:600}
+:focus-visible{outline:2px solid var(--violet-700);outline-offset:2px;border-radius:4px}
+
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 20px}
+section{padding:72px 0;border-top:1px solid var(--gray-200)}
+section.navy{background:var(--navy-900);color:var(--white);border-top:none}
+.navy h2,.navy h3{color:var(--white)}
+.navy p{color:#D7DCE8}
+.eyebrow{
+  font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--gray-500);margin:0 0 12px
+}
+.navy .eyebrow{color:#8FA0C4}
+.lead{font-size:20px;color:var(--gray-500)}
+.navy .lead{color:#D7DCE8}
+.small{font-size:15px;color:var(--gray-500)}
+.navy .small{color:#A9B4CC}
+
+/* Buttons – Klickziel mindestens 48px hoch */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:48px;padding:12px 22px;border-radius:var(--radius);
+  font-family:inherit;font-size:17px;font-weight:600;text-decoration:none;
+  border:1px solid transparent;cursor:pointer;background:none
+}
+.btn-primary{background:var(--violet-600);color:var(--white)}
+.btn-primary:hover{background:var(--violet-700)}
+.btn-secondary{border-color:var(--gray-200);color:var(--ink)}
+.btn-secondary:hover{border-color:var(--gray-500)}
+.navy .btn-secondary{border-color:#3A4B75;color:var(--white)}
+.navy .btn-secondary:hover{border-color:#7E8CAE}
+.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0 16px}
+
+/* Kopfzeile */
+header{
+  position:sticky;top:0;z-index:20;background:var(--white);
+  border-bottom:1px solid var(--gray-200)
+}
+.head{display:flex;align-items:center;gap:24px;min-height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;font-size:19px}
+.brand svg{width:28px;height:28px;display:block}
+.brand .b{color:var(--navy-900)}
+.brand .a{color:var(--violet-700)}
+nav.main{display:flex;gap:24px;margin-left:auto;align-items:center}
+nav.main a{color:var(--ink);text-decoration:none;font-size:16px;padding:8px 0}
+nav.main a:hover{color:var(--violet-700)}
+nav.main .btn{margin-left:8px}
+.only-desktop{display:inline}
+@media (max-width:860px){
+  .only-desktop{display:none}
+  nav.main{gap:12px}
+}
+
+/* Hero */
+.hero{padding:80px 0 64px;border-top:none}
+.hero h1{max-width:20ch}
+
+/* Fotoflaechen */
+.photo{
+  border:1px dashed var(--gray-200);border-radius:var(--radius);background:var(--gray-50);
+  color:var(--gray-500);font-size:15px;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  padding:24px;min-height:280px;margin:32px 0 0
+}
+.navy .photo{background:var(--navy-700);border-color:#3A4B75;color:#A9B4CC}
+
+/* Zeitleiste im Szenario */
+.timeline{display:grid;gap:0;margin:32px 0 0;border-top:1px solid #2A3A63}
+.tl{display:grid;grid-template-columns:150px 1fr;gap:24px;padding:24px 0;border-bottom:1px solid #2A3A63}
+.tl .when{font-weight:600;font-variant-numeric:tabular-nums;color:var(--white)}
+.tl p:last-child{margin-bottom:0}
+@media (max-width:700px){.tl{grid-template-columns:1fr;gap:4px}}
+
+/* Zwei Spalten */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:32px}
+@media (max-width:860px){.cols{grid-template-columns:1fr;gap:32px}}
+.col h3{padding-bottom:12px;border-bottom:1px solid var(--gray-200)}
+.col ul{list-style:none;padding:0;margin:0}
+.col li{padding:12px 0 12px 24px;border-bottom:1px solid var(--gray-200);position:relative;margin:0}
+.col li::before{position:absolute;left:0;top:12px;font-weight:600}
+.col.today li::before{content:"–";color:var(--gray-500)}
+.col.new li::before{content:"→";color:var(--violet-700)}
+
+/* Schritte */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:32px}
+@media (max-width:860px){.steps{grid-template-columns:1fr;gap:24px}}
+.step{border-top:2px solid var(--violet-600);padding-top:16px}
+.step .time{font-variant-numeric:tabular-nums;font-weight:600;color:var(--violet-700);font-size:15px}
+.step p{margin-bottom:0}
+
+/* Selbsttest */
+.quiz{max-width:760px}
+.q{border-bottom:1px solid var(--gray-200);padding:20px 0;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+.q .qt{font-size:17px}
+.q .qn{color:var(--gray-500);font-variant-numeric:tabular-nums;margin-right:8px}
+.answers{display:flex;gap:8px;flex-shrink:0}
+.answers button{
+  min-height:48px;min-width:76px;padding:0 18px;border-radius:var(--radius);
+  border:1px solid var(--gray-200);background:var(--white);color:var(--ink);
+  font-family:inherit;font-size:16px;font-weight:600;cursor:pointer
+}
+.answers button:hover{border-color:var(--gray-500)}
+.answers button[aria-pressed="true"]{background:var(--violet-50);border-color:var(--violet-600);color:var(--violet-700)}
+@media (max-width:600px){.q{grid-template-columns:1fr;gap:12px}.answers button{flex:1}}
+#ergebnis{margin-top:32px;padding:24px;border:1px solid var(--gray-200);border-radius:var(--radius);background:var(--gray-50)}
+#ergebnis h3{margin-bottom:8px}
+#ergebnis p:last-child{margin-bottom:0}
+.score{font-variant-numeric:tabular-nums;font-weight:600}
+
+/* Funktionen */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:40px 32px;margin-top:32px}
+@media (max-width:860px){.grid3{grid-template-columns:1fr;gap:28px}}
+.feat h3{margin-bottom:6px}
+.feat p{margin-bottom:0;font-size:16px;color:var(--gray-500)}
+.soon{margin-top:48px;padding-top:24px;border-top:1px solid var(--gray-200)}
+.soon-list{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:16px}
+@media (max-width:860px){.soon-list{grid-template-columns:1fr}}
+.tag{
+  display:inline-block;font-size:13px;font-weight:600;line-height:1;
+  padding:6px 10px;border-radius:999px;border:1px solid var(--gray-200);
+  color:var(--gray-500);background:var(--white);margin-bottom:8px
+}
+
+/* Preise */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:32px;align-items:start}
+@media (max-width:960px){.plans{grid-template-columns:1fr}}
+.plan{border:1px solid var(--gray-200);border-radius:var(--radius);padding:28px}
+.plan.mark{border-color:var(--violet-600);border-width:2px;padding:27px}
+.plan .name{font-weight:600;font-size:19px;margin-bottom:4px}
+.plan .badge{
+  display:inline-block;font-size:13px;font-weight:600;line-height:1;padding:6px 10px;
+  border-radius:999px;background:var(--violet-50);color:var(--violet-700);margin-bottom:12px
+}
+.price{font-size:36px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.price .per{font-size:16px;font-weight:400;color:var(--gray-500)}
+.plan .year{font-size:15px;color:var(--gray-500);margin:4px 0 20px;font-variant-numeric:tabular-nums}
+.plan ul{list-style:none;padding:0;margin:0 0 24px}
+.plan li{padding:8px 0 8px 22px;position:relative;font-size:16px;margin:0;border-bottom:1px solid var(--gray-200)}
+.plan li:last-child{border-bottom:none}
+.plan li::before{content:"·";position:absolute;left:6px;top:8px;font-weight:700;color:var(--violet-700)}
+.plan .btn{width:100%}
+.plan-note{font-size:14px;color:var(--gray-500);margin-top:12px;text-align:center}
+.terms{margin-top:40px;padding-top:32px;border-top:1px solid var(--gray-200)}
+.terms-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:16px}
+@media (max-width:860px){.terms-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.terms-grid{grid-template-columns:1fr}}
+.terms h3{font-size:17px;margin-bottom:4px}
+.terms p{font-size:15px;color:var(--gray-500);margin:0}
+
+/* FAQ */
+details{border-bottom:1px solid var(--gray-200);padding:0}
+details summary{
+  cursor:pointer;list-style:none;padding:20px 32px 20px 0;position:relative;
+  font-weight:600;font-size:18px;min-height:48px;display:flex;align-items:center
+}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";position:absolute;right:4px;font-weight:400;font-size:24px;color:var(--gray-500)}
+details[open] summary::after{content:"–"}
+details .body{padding:0 0 20px}
+details .body p:last-child{margin-bottom:0}
+
+/* Fusszeile */
+footer{background:var(--gray-50);border-top:1px solid var(--gray-200);padding:48px 0}
+.foot{display:flex;flex-wrap:wrap;gap:32px;justify-content:space-between}
+footer nav{display:flex;flex-wrap:wrap;gap:20px}
+footer a{color:var(--ink);text-decoration:none;font-size:16px}
+footer a:hover{text-decoration:underline}
+.legal{font-size:14px;color:var(--gray-500);margin-top:32px;max-width:80ch}
+.legal p{font-size:14px;margin-bottom:8px}
+</style>
+</head>
+
+<body>
+
+<!-- ============ 1. Navigation ============ -->
+<header>
+  <div class="wrap head">
+    <a class="brand" href="#top" aria-label="BaumAkte, zum Seitenanfang">
+      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+        <rect width="64" height="64" rx="15" fill="#101A33"/>
+        <path d="M32 11 L48 33 L32 53 Z" fill="#5836E0"/>
+        <path d="M32 11 L16 33 L32 53 Z" fill="#8A6BFF"/>
+      </svg>
+      <span><span class="b">Baum</span><span class="a">Akte</span></span>
+    </a>
+    <nav class="main" aria-label="Hauptnavigation">
+      <a class="only-desktop" href="#funktionen">Funktionen</a>
+      <a class="only-desktop" href="#selbsttest">Selbsttest</a>
+      <a class="only-desktop" href="#preise">Preise</a>
+      <a class="only-desktop" href="/login">Anmelden</a>
+      <a class="btn btn-primary" href="/registrieren?beta=1">Beta-Zugang</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ 2. Hero ============ -->
+<section class="hero">
+  <div class="wrap">
+    <h1>Ein Ast ist gefallen. Können Sie belegen, wann dieser Baum zuletzt kontrolliert wurde?</h1>
+    <p class="lead">BaumAkte dokumentiert die Regelkontrolle dort, wo sie stattfindet: am Baum. 90&nbsp;Sekunden pro Baum, Foto mit Zeit- und Geostempel, Prüfbericht als PDF. Die Büroarbeit am Abend entfällt.</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="/registrieren">14 Tage testen, ohne Karte</a>
+      <a class="btn btn-secondary" href="#selbsttest">Erst prüfen, wie Sie dastehen</a>
+    </div>
+    <p class="small">Server in Deutschland · Auftragsverarbeitungsvertrag verfügbar · Export als PDF und CSV jederzeit, auch nach Vertragsende</p>
+
+    <!-- FOTO: Baumkontrolleur im Freien, Handy in einer Hand, Blick nach oben in die Krone.
+         Hochformat-Handy im Bild erkennbar, Arbeitskleidung, echtes Tageslicht.
+         Kein Studio, keine gestellte Handschlag-Szene. Querformat, mind. 1600px breit. -->
+    <div class="photo">Foto: Kontrolleur am Baum, Handy in der Hand, Blick in die Krone</div>
+  </div>
+</section>
+
+<!-- ============ 3. Szenario (Navy) ============ -->
+<section class="navy">
+  <div class="wrap">
+    <p class="eyebrow">Der Fall, auf den es ankommt</p>
+    <h2>Drei Zeitpunkte</h2>
+    <div class="timeline">
+      <div class="tl">
+        <div class="when">Dienstag, 14:20</div>
+        <p>Ein Starkast bricht aus der Krone einer Linde und trifft ein parkendes Auto. Verletzt wird niemand. Der Halter meldet den Schaden.</p>
+      </div>
+      <div class="tl">
+        <div class="when">Tag 3</div>
+        <p>Die Versicherung stellt drei Fragen: Wann wurde dieser Baum zuletzt kontrolliert? Von wem? Mit welchem Ergebnis? Der Eigentümer haftet nach §&nbsp;823 BGB für die Verkehrssicherheit — er muss die Kontrolle nachweisen, nicht behaupten.</p>
+      </div>
+      <div class="tl">
+        <div class="when">Tag 6</div>
+        <p>Sie suchen noch. Die Word-Vorlage vom letzten Jahr liegt auf dem Bürorechner, das Erstellungsdatum lässt sich in zwei Klicks ändern. Die Fotos sind auf dem Privathandy, ohne Bezug zu einem bestimmten Baum. Welcher Kollege dort stand, weiß niemand mehr sicher.</p>
+      </div>
+    </div>
+    <p style="margin-top:32px;font-size:20px;color:var(--white);max-width:60ch">Sie haben kontrolliert. Sie haben sauber gearbeitet. Beweisen können Sie es nicht.</p>
+  </div>
+</section>
+
+<!-- ============ 4. Vergleich ============ -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">Dieselbe Frage, zwei Antworten</p>
+    <h2>Was sich ändert, ist nicht Ihre Arbeit — sondern ihre Belegbarkeit</h2>
+    <p>Die Kontrolle machen Sie längst richtig. Es geht um die Spur, die sie hinterlässt.</p>
+    <div class="cols">
+      <div class="col today">
+        <h3>Heute</h3>
+        <ul>
+          <li>Notizen auf dem Klemmbrett, abends abgetippt</li>
+          <li>Fotos auf dem Privathandy, ohne festen Bezug zum einzelnen Baum</li>
+          <li>Bericht als Word-Datei: Datum änderbar, frühere Fassungen nicht nachvollziehbar</li>
+          <li>Auf Nachfrage: Suche in Ordnern, Postfächern und auf zwei Rechnern</li>
+          <li>1,5 bis 3 Stunden Büro pro Objekt, nach dem Feiertag im Feld</li>
+          <li>Ob eine empfohlene Maßnahme ausgeführt wurde, steht auf der Rechnung — nicht in der Akte</li>
+        </ul>
+      </div>
+      <div class="col new">
+        <h3>Mit BaumAkte</h3>
+        <ul>
+          <li>Befunde am Baum angetippt, nichts wird am Abend ein zweites Mal erfasst</li>
+          <li>Jedes Foto trägt Datum, Uhrzeit, Koordinaten, Prüfernamen und Baumnummer im Bild</li>
+          <li>Kontrolldatensätze werden nie überschrieben, sondern per Hash an die Vorkontrolle gekettet</li>
+          <li>Auf Nachfrage: Baum aufrufen, Historie steht da — auch nach drei Jahren</li>
+          <li>Der Bericht entsteht auf Knopfdruck, im eigenen Briefkopf</li>
+          <li>Zu jeder Maßnahme wird festgehalten, wann und von wem sie ausgeführt wurde</li>
+        </ul>
+      </div>
+    </div>
+    <p class="small" style="margin-top:24px">Zur Klarheit: BaumAkte senkt Ihre Haftung nicht. Die Verkehrssicherungspflicht bleibt unverändert bestehen. Was sich ändert, ist Ihre Fähigkeit, die erfüllte Pflicht zu belegen — und genau daran scheitern Verfahren.</p>
+  </div>
+</section>
+
+<!-- ============ 5. Kernfunktion ============ -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">Der Ablauf am Baum</p>
+    <h2>90 Sekunden, drei Schritte</h2>
+    <p>Die Zeiten stammen aus Messungen mit echten Bäumen im Feld, nicht aus einer Demo am Schreibtisch. Ein Baum ohne Auffälligkeiten geht schneller, weil alle sechs Bereiche auf „ohne Befund“ vorbelegt sind.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="time">0:00 – 0:15</div>
+        <h3>Baum setzen</h3>
+        <p>Auf die Karte tippen oder die eigene Position übernehmen. Die Baumnummer läuft fort, die Art kommt aus einer Liste, die Höhe wählen Sie als Klasse.</p>
+      </div>
+      <div class="step">
+        <div class="time">0:15 – 1:00</div>
+        <h3>Befunde erfassen</h3>
+        <p>Sechs Baumbereiche nach FLL-Systematik. Vitalität und Verkehrssicherheit werden getrennt bewertet. Foto und Freitext nur dort, wo Sie etwas gesehen haben.</p>
+      </div>
+      <div class="step">
+        <div class="time">1:00 – 1:30</div>
+        <h3>Maßnahme und Frist</h3>
+        <p>Maßnahme antippen, Dringlichkeit als Ampel: sofort, drei Monate, nächste Kontrolle. Das Fristdatum berechnet die App und Sie können es überschreiben.</p>
+      </div>
+    </div>
+    <p style="margin-top:32px">Am Ende des Tages erzeugen Sie den Bericht mit einem Klick. Erstellungsdatum und Uhrzeit setzt die App selbst — sie sind Teil des Dokuments und der Prüfsumme.</p>
+
+    <!-- FOTO: Screenshot der App auf einem Handy, Schritt 1 der Kontrolle, sechs
+         Bereiche mit "ohne Befund"-Schaltern sichtbar. Alternativ ein Foto, das
+         das Handy in behandschuhter Hand vor einem Stammfuss zeigt.
+         Wichtig: echter Screenshot, keine Illustration. -->
+    <div class="photo">Foto oder Screenshot: Schritt 1 der Kontrolle auf dem Handy im Feldeinsatz</div>
+  </div>
+</section>
+
+<!-- ============ 6. Selbsttest ============ -->
+<section id="selbsttest">
+  <div class="wrap">
+    <p class="eyebrow">Fünf Fragen, eine Minute</p>
+    <h2>Wie belegbar ist Ihre Dokumentation heute?</h2>
+    <p>Die Auswertung läuft im Browser. Nichts wird gespeichert, nichts übertragen, kein Formular am Ende.</p>
+
+    <div class="quiz" id="quiz">
+      <!-- Fragen werden per JS aus dieser Liste erzeugt, damit Markup und Logik nicht auseinanderlaufen -->
+    </div>
+
+    <div id="ergebnis" role="status" aria-live="polite">
+      <h3>Noch keine Antwort ausgewählt</h3>
+      <p>Beantworten Sie die fünf Fragen. Das Ergebnis erscheint sofort an dieser Stelle.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. Funktionen ============ -->
+<section id="funktionen">
+  <div class="wrap">
+    <p class="eyebrow">Was die Software tut</p>
+    <h2>Sechs Funktionen, die zusammengehören</h2>
+    <div class="grid3">
+      <div class="feat">
+        <h3>Kataster auf der Karte, auch ohne Netz</h3>
+        <p>Bäume per GPS verorten und wiederfinden. Kartenkacheln laden Sie vorab für ein Objekt herunter, dann arbeitet die App im Funkloch weiter und überträgt später.</p>
+      </div>
+      <div class="feat">
+        <h3>Geführte Regelkontrolle</h3>
+        <p>Sechs Baumbereiche, nach der FLL-Systematik aufgebaut. Vitalität und Verkehrssicherheit werden getrennt bewertet, weil ein vitaler Baum unsicher und ein schwacher Baum sicher sein kann.</p>
+      </div>
+      <div class="feat">
+        <h3>Foto mit eingebranntem Stempel</h3>
+        <p>Datum, Uhrzeit, Koordinaten, Genauigkeit, Prüfername und Baumnummer stehen im Bild — nicht nur in den Metadaten, die jedes Programm überschreibt.</p>
+      </div>
+      <div class="feat">
+        <h3>Maßnahmen mit Frist und Durchführungsnachweis</h3>
+        <p>Dringlichkeit als Ampel, Frist berechnet. Beim Abhaken wird festgehalten, wann und von wem die Maßnahme ausgeführt wurde. Damit endet die Kette nicht bei der Empfehlung.</p>
+      </div>
+      <div class="feat">
+        <h3>Unveränderliches Protokoll</h3>
+        <p>Auf Kontrolldatensätze gibt es kein UPDATE, jeder Datensatz ist per Hash mit seinem Vorgänger verkettet. Eine Korrektur ist ein neuer, sichtbar gekennzeichneter Storno — der alte Eintrag bleibt lesbar.</p>
+      </div>
+      <div class="feat">
+        <h3>Artenschutz mitgedacht</h3>
+        <p>Höhlen, Spalten und Nester erfassen Sie im selben Durchgang. Vor einer Fällung erinnert die App an die artenschutzrechtliche Prüfung nach §§&nbsp;39, 44 BNatSchG.</p>
+      </div>
+    </div>
+
+    <div class="soon">
+      <h3>In Vorbereitung — heute noch nicht nutzbar</h3>
+      <p class="small">Beides ist geplant und im Datenmodell angelegt, aber noch nicht gebaut. Es steht hier, damit Sie es bei der Entscheidung nicht mitrechnen.</p>
+      <div class="soon-list">
+        <div class="feat">
+          <span class="tag">In Vorbereitung</span>
+          <h3>Import aus Excel und CSV</h3>
+          <p>Bestehende Baumlisten übernehmen, statt sie abzutippen. Bis dahin erfassen Sie den Bestand im Feld — was bei der Erstkontrolle ohnehin ansteht.</p>
+        </div>
+        <div class="feat">
+          <span class="tag">In Vorbereitung</span>
+          <h3>Eigentümer-Zugang</h3>
+          <p>Ein Lesezugang für den Auftraggeber auf seinen Bestand und die offenen Maßnahmen. Heute geben Sie ihm den Bericht als PDF oder als Link weiter.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8. Preise ============ -->
+<section id="preise">
+  <div class="wrap">
+    <p class="eyebrow">Preise</p>
+    <h2>Ein Abend Berichte schreiben kostet mehr als ein Monat BaumAkte</h2>
+    <!-- ANNAHME: 2 Stunden Buero pro Objekt, 65 EUR Verrechnungssatz. -->
+    <p>Zwei Stunden Büro pro Objekt, bei 65&nbsp;€ Verrechnungssatz, sind 130&nbsp;€. Das Paket Betrieb kostet 79&nbsp;€ im Monat. Die Rechnung geht bereits beim ersten Objekt auf.</p>
+
+    <div class="plans">
+      <div class="plan">
+        <div class="name">Kontrolleur</div>
+        <div class="price">39&nbsp;€ <span class="per">/ Monat</span></div>
+        <div class="year">oder 468&nbsp;€ im Jahr · zzgl. MwSt.</div>
+        <ul>
+          <li>1 Nutzer</li>
+          <li>bis 750 Bäume</li>
+          <li>Bericht mit eigenem Logo</li>
+          <li>Offline-Betrieb</li>
+        </ul>
+        <a class="btn btn-secondary" href="/abo/start?paket=kontrolleur">Kontrolleur wählen</a>
+        <p class="plan-note">Anmelden, dann bezahlen</p>
+      </div>
+
+      <div class="plan mark">
+        <span class="badge">Für die meisten Betriebe</span>
+        <div class="name">Betrieb</div>
+        <div class="price">79&nbsp;€ <span class="per">/ Monat</span></div>
+        <div class="year">oder 948&nbsp;€ im Jahr · zzgl. MwSt.</div>
+        <ul>
+          <li>5 Nutzer</li>
+          <li>bis 5.000 Bäume</li>
+          <li>unbegrenzte Objekte</li>
+          <li>Artenschutz-Bericht</li>
+          <li>Eigentümer-Portal, sobald verfügbar</li>
+        </ul>
+        <a class="btn btn-primary" href="/abo/start?paket=betrieb">Betrieb wählen</a>
+        <p class="plan-note">Anmelden, dann bezahlen</p>
+      </div>
+
+      <div class="plan">
+        <div class="name">Eigentümer</div>
+        <div class="price">ab 199&nbsp;€ <span class="per">/ Monat</span></div>
+        <div class="year">Jahrespreis auf Angebot · zzgl. MwSt.</div>
+        <ul>
+          <li>unbegrenzte Bäume</li>
+          <li>mehrere Liegenschaften</li>
+          <li>Zugänge für Ihre Dienstleister</li>
+          <li>Vollexport des Bestands</li>
+        </ul>
+        <a class="btn btn-secondary" href="mailto:kontakt@baumakte.de?subject=Angebot%20Paket%20Eigent%C3%BCmer">Angebot anfragen</a>
+        <p class="plan-note">Antwort innerhalb von zwei Werktagen</p>
+      </div>
+    </div>
+
+    <div class="terms">
+      <h3>Was Sie eingehen — und was nicht</h3>
+      <div class="terms-grid">
+        <div>
+          <h3>14 Tage testen</h3>
+          <p>Ohne Zahlungsdaten. Es beginnt kein Abo, das Sie aktiv beenden müssten.</p>
+        </div>
+        <div>
+          <h3>12 Monate Laufzeit</h3>
+          <p>Danach monatlich kündbar. Zahlung per Kreditkarte oder PayPal über Stripe.</p>
+        </div>
+        <div>
+          <h3>Kündigung</h3>
+          <p>Im Konto mit einem Klick, ohne Anruf und ohne Formular.</p>
+        </div>
+        <div>
+          <h3>Datenexport</h3>
+          <p>Bestand als CSV, Berichte als PDF — jederzeit und auch nach Vertragsende. Ihre Daten bleiben Ihre Daten.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--
+  HIER gehoert der Abschnitt "Fachliche Begleitung" hin, sobald der fachliche
+  Beirat feststeht: Name, Qualifikation (FLL-zertifizierter Baumkontrolleur seit
+  JAHR) und ein Satz dazu, was diese Person am Produkt geprueft hat.
+  Vorgabe: solange die Person nicht feststeht, bleibt der Abschnitt vollstaendig
+  weg und wird nicht durch Ersatzautoritaet gefuellt.
+-->
+
+<!-- ============ 10. Keine Kundenstimmen ============ -->
+<section id="keine-stimmen">
+  <div class="wrap">
+    <p class="eyebrow">In eigener Sache</p>
+    <h2>Warum hier keine Kundenstimmen stehen</h2>
+    <p>An dieser Stelle steht auf den meisten Seiten ein Zitat mit Porträtfoto. Bei uns nicht, aus einem einfachen Grund: BaumAkte ist neu und hat noch keine zahlenden Kunden. Ein erfundenes Zitat wäre nicht nur unredlich, es ist nach dem Anhang zu §&nbsp;3 Abs.&nbsp;3 UWG ausdrücklich verboten.</p>
+    <p>Was wir stattdessen anbieten: Wir suchen <strong>10 Betriebe</strong> für das Beta-Programm.<!-- ANNAHME: 10 Betriebe --> Sie bekommen den Zugang während der Beta kostenlos und danach dauerhaft den Einstiegspreis. Im Gegenzug erwarten wir Rückmeldung — was im Feld hakt, welcher Befund im Katalog fehlt, was im Bericht der Auftraggeber vermisst.</p>
+    <p>Sobald die ersten Betriebe mit BaumAkte gearbeitet haben, stehen ihre Sätze an dieser Stelle. Mit Namen, mit Betrieb, und nur dann, wenn sie freiwillig gegeben wurden.</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="/registrieren?beta=1">Beta-Platz anfragen</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11. FAQ ============ -->
+<section id="faq">
+  <div class="wrap">
+    <p class="eyebrow">Fragen, die vor der Entscheidung kommen</p>
+    <h2>Häufige Fragen</h2>
+
+    <details>
+      <summary>Ich habe 800 Bäume in einer Excel-Liste. Muss ich die abtippen?</summary>
+      <div class="body">
+        <p>Heute ja — der Import aus Excel und CSV ist in Vorbereitung und noch nicht nutzbar. Das ist die ehrliche Antwort. Wenn Ihr Bestand ohnehin zur Kontrolle ansteht, erfassen Sie ihn im Feld mit: Ein Baum kostet Sie beim Setzen rund 15 Sekunden, die Kontrolle machen Sie in diesem Termin sowieso.</p>
+        <p>Wenn Sie den Bestand vorher übernehmen wollen, warten Sie den Import ab. Wir sagen Ihnen Bescheid, sobald er steht — ohne dass daraus eine Zahlungspflicht entsteht.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Auf meinen Objekten ist häufig kein Netz. Funktioniert die App im Funkloch?</summary>
+      <div class="body">
+        <p>Ja. Alles, was Sie erfassen, wird zuerst auf dem Gerät gespeichert und erst danach übertragen. Bäume, Kontrollen, Maßnahmen und Fotos entstehen offline vollständig.</p>
+        <p>Die Kartenkacheln laden Sie vor der Fahrt für das Objekt herunter, dann sehen Sie die Karte auch ohne Empfang. Sobald das Gerät wieder online ist, überträgt die App im Hintergrund und zeigt Ihnen, wie viele Kontrollen noch in der Warteschlange stehen. Doppelte Einträge sind ausgeschlossen, weil jeder Datensatz seine Kennung bereits auf dem Gerät bekommt.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Was passiert mit meinen Daten, wenn ich wieder kündige?</summary>
+      <div class="body">
+        <p>Sie exportieren jederzeit: den Bestand als CSV, jeden Bericht als PDF. Das gilt während der Laufzeit und nach Vertragsende — der Export ist nicht an ein aktives Abo gebunden.</p>
+        <p>Wir halten Ihre Dokumentation nicht als Druckmittel fest. Ein Nachweis, an den Sie nur mit laufender Zahlung herankommen, wäre als Nachweis wertlos.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Hält diese Dokumentation vor Gericht?</summary>
+      <div class="body">
+        <p>Beweiswürdigung ist Sache des Gerichts, und niemand kann Ihnen ein Ergebnis zusichern. Was wir sagen können, ist, woran Dokumentation üblicherweise scheitert: an nachträglich änderbaren Dateien, an Fotos ohne belegbaren Zeit- und Ortsbezug und an Lücken zwischen Empfehlung und Ausführung.</p>
+        <p>Genau dort setzt BaumAkte an. Kontrolldatensätze lassen sich technisch nicht ändern, jeder Datensatz ist per Hash an seinen Vorgänger gekettet, jedes Foto trägt Zeit, Ort und Prüfer im Bild, und zu jeder Maßnahme wird die Ausführung festgehalten. Ein Bruch in dieser Kette ist erkennbar — das ist der Unterschied zu einer Word-Datei.</p>
+        <p>Ihre Haftung senkt das nicht. Die Verkehrssicherungspflicht bleibt, wo sie ist. Sie können sie nur belegen.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Wo liegen die Daten, und wer kommt daran?</summary>
+      <div class="body">
+        <p>Die Daten liegen auf Servern in Deutschland. Einen Auftragsverarbeitungsvertrag nach Art.&nbsp;28 DSGVO stellen wir Ihnen zur Verfügung, bevor Sie zahlen — auf Anfrage auch schon für die Testphase.</p>
+        <p>Auf Ihren Bestand greift außer Ihnen niemand zu: Jede Datenbankzeile trägt Ihre Betriebskennung, und die Zugriffsregeln werden in der Datenbank selbst durchgesetzt, nicht erst in der Anwendung. Die Seite, die Sie gerade lesen, lädt keine externen Schriften, kein Analytics und keine Skripte von Dritten.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 12. Abschluss (Navy) ============ -->
+<section class="navy">
+  <div class="wrap">
+    <p class="eyebrow">Beta-Programm</p>
+    <h2>10 Betriebe, kostenloser Zugang, dauerhafter Einstiegspreis</h2>
+    <p style="font-size:19px">Im Gegenzug erwarten wir Rückmeldung aus dem laufenden Betrieb. Wenn Sie Baumkontrolle anbieten und in den nächsten Wochen ohnehin Objekte abarbeiten, ist das der richtige Zeitpunkt.</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="/registrieren?beta=1">Beta-Platz anfragen</a>
+      <a class="btn btn-secondary" href="/registrieren">14 Tage testen, ohne Karte</a>
+    </div>
+    <p class="small">Sie wollen erst hineinsehen: Das Kontrollblatt für die Regelkontrolle gibt es als PDF zum Ausdrucken, kostenlos und ohne Anmeldung — <a href="/kontrollblatt.pdf" style="color:#B9A9FF">Kontrollblatt herunterladen</a>.</p>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ 13. Fusszeile ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <a class="brand" href="#top" aria-label="BaumAkte, zum Seitenanfang">
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <rect width="64" height="64" rx="15" fill="#101A33"/>
+          <path d="M32 11 L48 33 L32 53 Z" fill="#5836E0"/>
+          <path d="M32 11 L16 33 L32 53 Z" fill="#8A6BFF"/>
+        </svg>
+        <span><span class="b">Baum</span><span class="a">Akte</span></span>
+      </a>
+      <nav aria-label="Rechtliches und Kontakt">
+        <a href="/impressum">Impressum</a>
+        <a href="/datenschutz">Datenschutz</a>
+        <a href="/agb">AGB</a>
+        <a href="mailto:kontakt@baumakte.de">Kontakt</a>
+      </nav>
+    </div>
+    <div class="legal">
+      <p>Kartendaten © OpenStreetMap-Mitwirkende, veröffentlicht unter der Open Database License (ODbL).</p>
+      <p>BaumAkte ist nach der FLL-Systematik aufgebaut. Es besteht keine Zertifizierung, Prüfung oder sonstige Verbindung zur Forschungsgesellschaft Landschaftsentwicklung Landschaftsbau e.&nbsp;V. Alle Preise verstehen sich zzgl. gesetzlicher Umsatzsteuer.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* Selbsttest – laeuft vollstaendig im Browser.
+     Keine Speicherung, kein Netzwerkaufruf, kein Formular. */
+  var FRAGEN = [
+    "Können Sie für einen einzelnen Baum in unter fünf Minuten die letzte Kontrolle vorlegen?",
+    "Lässt sich belegen, dass der Bericht nach dem Abschluss nicht mehr verändert wurde?",
+    "Tragen Ihre Fotos nachweisbar Datum, Uhrzeit und Koordinaten?",
+    "Ist dokumentiert, dass empfohlene Maßnahmen tatsächlich ausgeführt wurden — wann und von wem?",
+    "Halten Sie fest, wenn ein Baumteil nicht einsehbar war, etwa wegen Belaubung oder Bewuchs?"
+  ];
+
+  var antworten = new Array(FRAGEN.length).fill(null);
+  var quiz = document.getElementById("quiz");
+  var out  = document.getElementById("ergebnis");
+
+  FRAGEN.forEach(function (text, i) {
+    var row = document.createElement("div");
+    row.className = "q";
+
+    var frage = document.createElement("div");
+    frage.className = "qt";
+    frage.id = "frage-" + i;
+    frage.innerHTML = '<span class="qn">' + (i + 1) + '.</span>' + text;
+
+    var group = document.createElement("div");
+    group.className = "answers";
+    group.setAttribute("role", "group");
+    group.setAttribute("aria-labelledby", "frage-" + i);
+
+    [["ja", true], ["nein", false]].forEach(function (paar) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.textContent = paar[0];
+      b.setAttribute("aria-pressed", "false");
+      b.addEventListener("click", function () {
+        antworten[i] = paar[1];
+        Array.prototype.forEach.call(group.children, function (other) {
+          other.setAttribute("aria-pressed", String(other === b));
+        });
+        auswerten();
+      });
+      group.appendChild(b);
+    });
+
+    row.appendChild(frage);
+    row.appendChild(group);
+    quiz.appendChild(row);
+  });
+
+  function auswerten() {
+    var beantwortet = antworten.filter(function (a) { return a !== null; }).length;
+    var ja = antworten.filter(function (a) { return a === true; }).length;
+
+    if (beantwortet < FRAGEN.length) {
+      setzen(
+        "Noch " + (FRAGEN.length - beantwortet) + " von " + FRAGEN.length + " Fragen offen",
+        "<p>Das Ergebnis erscheint, sobald alle fünf Fragen beantwortet sind.</p>"
+      );
+      return;
+    }
+
+    var kopf, text;
+    if (ja === 5) {
+      kopf = "5 von 5 — Ihre Dokumentation ist belegbar";
+      text = "<p>Sie beantworten alle fünf Fragen mit ja. Das ist selten. Ihre Kontrolle ist nicht nur durchgeführt, sie ist auch nachvollziehbar. BaumAkte würde Ihnen an dieser Stelle vor allem Zeit sparen, keine Sicherheit hinzufügen.</p>";
+    } else if (ja >= 3) {
+      kopf = ja + " von 5 — die Arbeit stimmt, die Spur hat Lücken";
+      text = "<p>Sie kontrollieren und Sie dokumentieren. An " + (5 - ja) + " Stellen wäre der Nachweis im Streitfall aber angreifbar — nicht weil Sie schlecht gearbeitet hätten, sondern weil die Ablage es nicht hergibt. Genau diese Stellen deckt BaumAkte ab.</p>";
+    } else {
+      kopf = ja + " von 5 — beweisbar ist davon wenig";
+      text = "<p>Das sagt nichts über die Qualität Ihrer Kontrolle. Es sagt, dass sie im Streitfall schwer zu belegen wäre. Die meisten Betriebe stehen hier, weil Word, Handykamera und Ordnerstruktur nie dafür gemacht waren.</p>";
+    }
+
+    text += '<p class="small">Die Fragen prüfen nicht, ob Sie gut kontrollieren — das können sie gar nicht. Sie prüfen, ob sich Ihre Kontrolle drei Jahre später gegenüber einer Versicherung belegen lässt. Das sind zwei verschiedene Dinge, und nur das zweite lässt sich mit Software lösen.</p>';
+    text += '<p><a class="btn btn-primary" href="/registrieren" style="margin-top:8px">14 Tage testen, ohne Karte</a></p>';
+    setzen(kopf, text);
+  }
+
+  function setzen(kopf, html) {
+    out.innerHTML = "<h3>" + kopf + "</h3>" + html;
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+/* Designtokens BaumAkte. Einzige Quelle fuer Farben. Keine weiteren Farbwerte im Code. */
+:root {
+  /* Marke */
+  --ink: #0a0b0f;
+  --navy-900: #101a33;
+  --navy-700: #1c2b52;
+  --violet-600: #6d4aff;
+  --violet-700: #5836e0;
+  --violet-50: #f1edff;
+
+  /* Neutral */
+  --white: #ffffff;
+  --gray-50: #f7f8fa;
+  --gray-200: #e3e6ec;
+  --gray-500: #5f6675;
+
+  /* Semantik - nur Badges, nie Flaechen */
+  --red: #b3261e;
+  --amber: #a15c00;
+  --green: #1f7a4d;
+
+  /* Systemschrift-Stack. Inter spaeter self-hosted per next/font/local ergaenzen. */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
