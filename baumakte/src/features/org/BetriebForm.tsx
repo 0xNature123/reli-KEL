@@ -123,6 +123,22 @@ export function BetriebForm({ org }: { org: Org }) {
           </p>
         )}
       </div>
+
+      <div className="mt-8 pt-6 border-t border-[var(--gray-200)]">
+        <h2 className="text-xl font-semibold mb-1">Datenexport</h2>
+        <p className="text-[13px] text-[var(--gray-500)] mb-3">
+          Ihr gesamter Bestand mit allen Kontrollen, Befunden, Massnahmen und Pruefsummen als
+          CSV. Der Export haengt nicht an einem laufenden Abonnement.
+        </p>
+        <a
+          href="/api/export"
+          className="inline-flex items-center min-h-[48px] px-5 rounded-[10px] no-underline
+                     border border-[var(--gray-200)] bg-white font-semibold text-[var(--ink)]
+                     hover:border-[var(--gray-500)]"
+        >
+          Bestand als CSV herunterladen
+        </a>
+      </div>
     </>
   );
 }

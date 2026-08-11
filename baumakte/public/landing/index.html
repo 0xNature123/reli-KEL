@@ -110,7 +110,9 @@ header{
 nav.main{display:flex;gap:24px;margin-left:auto;align-items:center}
 nav.main a{color:var(--ink);text-decoration:none;font-size:16px;padding:8px 0}
 nav.main a:hover{color:var(--violet-700)}
-nav.main .btn{margin-left:8px}
+nav.main .btn{margin-left:8px;padding:12px 22px}
+/* Muss die Farbe aus "nav.main a" ueberschreiben - sonst dunkler Text auf Violett. */
+nav.main a.btn-primary,nav.main a.btn-primary:hover{color:var(--white)}
 .only-desktop{display:inline}
 @media (max-width:860px){
   .only-desktop{display:none}
@@ -179,7 +181,7 @@ nav.main .btn{margin-left:8px}
 .feat h3{margin-bottom:6px}
 .feat p{margin-bottom:0;font-size:16px;color:var(--gray-500)}
 .soon{margin-top:48px;padding-top:24px;border-top:1px solid var(--gray-200)}
-.soon-list{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:16px}
+.soon-list{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:16px}
 @media (max-width:860px){.soon-list{grid-template-columns:1fr}}
 .tag{
   display:inline-block;font-size:13px;font-weight:600;line-height:1;
@@ -341,7 +343,10 @@ footer a:hover{text-decoration:underline}
   <div class="wrap">
     <p class="eyebrow">Der Ablauf am Baum</p>
     <h2>90 Sekunden, drei Schritte</h2>
-    <p>Die Zeiten stammen aus Messungen mit echten Bäumen im Feld, nicht aus einer Demo am Schreibtisch. Ein Baum ohne Auffälligkeiten geht schneller, weil alle sechs Bereiche auf „ohne Befund“ vorbelegt sind.</p>
+    <!-- Bewusst als Zielwert formuliert: Es gibt noch keine Zeitmessung mit echten Baeumen
+         im Feld. Sobald die Messreihe vorliegt, wird dieser Absatz durch die tatsaechlichen
+         Werte ersetzt. Eine erfundene Messung waere eine Irrefuehrung. -->
+    <p>Diese Zeiten sind der Zielwert, auf den die Bedienung ausgelegt ist — gemessen wird er im Beta-Betrieb, mit echten Bäumen. Ein Baum ohne Auffälligkeiten geht deutlich schneller, weil alle sechs Bereiche auf „ohne Befund“ vorbelegt sind.</p>
     <div class="steps">
       <div class="step">
         <div class="time">0:00 – 0:15</div>
@@ -394,8 +399,8 @@ footer a:hover{text-decoration:underline}
     <h2>Sechs Funktionen, die zusammengehören</h2>
     <div class="grid3">
       <div class="feat">
-        <h3>Kataster auf der Karte, auch ohne Netz</h3>
-        <p>Bäume per GPS verorten und wiederfinden. Kartenkacheln laden Sie vorab für ein Objekt herunter, dann arbeitet die App im Funkloch weiter und überträgt später.</p>
+        <h3>Kataster auf der Karte</h3>
+        <p>Bäume per GPS oder Fadenkreuz verorten und wiederfinden. Die Karte zeigt auf einen Blick, was kontrolliert ist, was neu ist und wo eine Sofortmaßnahme offen steht.</p>
       </div>
       <div class="feat">
         <h3>Geführte Regelkontrolle</h3>
@@ -423,6 +428,11 @@ footer a:hover{text-decoration:underline}
       <h3>In Vorbereitung — heute noch nicht nutzbar</h3>
       <p class="small">Beides ist geplant und im Datenmodell angelegt, aber noch nicht gebaut. Es steht hier, damit Sie es bei der Entscheidung nicht mitrechnen.</p>
       <div class="soon-list">
+        <div class="feat">
+          <span class="tag">In Vorbereitung</span>
+          <h3>Offline-Betrieb im Funkloch</h3>
+          <p>Erfassen ohne Empfang, Übertragung später. Heute hält die App eine begonnene Kontrolle auf dem Gerät fest, wenn Sie sie schließen — für das Speichern brauchen Sie aber Netz.</p>
+        </div>
         <div class="feat">
           <span class="tag">In Vorbereitung</span>
           <h3>Import aus Excel und CSV</h3>
@@ -455,7 +465,7 @@ footer a:hover{text-decoration:underline}
           <li>1 Nutzer</li>
           <li>bis 750 Bäume</li>
           <li>Bericht mit eigenem Logo</li>
-          <li>Offline-Betrieb</li>
+          <li>Offline-Betrieb, sobald verfügbar</li>
         </ul>
         <a class="btn btn-secondary" href="/abo/start?paket=kontrolleur">Kontrolleur wählen</a>
         <p class="plan-note">Anmelden, dann bezahlen</p>
@@ -555,8 +565,9 @@ footer a:hover{text-decoration:underline}
     <details>
       <summary>Auf meinen Objekten ist häufig kein Netz. Funktioniert die App im Funkloch?</summary>
       <div class="body">
-        <p>Ja. Alles, was Sie erfassen, wird zuerst auf dem Gerät gespeichert und erst danach übertragen. Bäume, Kontrollen, Maßnahmen und Fotos entstehen offline vollständig.</p>
-        <p>Die Kartenkacheln laden Sie vor der Fahrt für das Objekt herunter, dann sehen Sie die Karte auch ohne Empfang. Sobald das Gerät wieder online ist, überträgt die App im Hintergrund und zeigt Ihnen, wie viele Kontrollen noch in der Warteschlange stehen. Doppelte Einträge sind ausgeschlossen, weil jeder Datensatz seine Kennung bereits auf dem Gerät bekommt.</p>
+        <p>Noch nicht vollständig, und das sagen wir lieber vorher als hinterher. Der vollständige Offline-Betrieb ist in Vorbereitung: erfassen ohne Empfang, Übertragung sobald das Gerät wieder online ist.</p>
+        <p>Was heute schon greift: Eine begonnene Kontrolle liegt auf dem Gerät. Schließen Sie die App oder geht der Akku aus, ist der Stand beim nächsten Start wieder da. Zum Abschließen einer Kontrolle brauchen Sie derzeit Empfang.</p>
+        <p>Der Unterbau dafür ist gelegt: Jeder Datensatz bekommt seine Kennung bereits auf dem Gerät, deshalb kann eine spätere Übertragung keine Dubletten erzeugen.</p>
       </div>
     </details>
 
@@ -597,7 +608,10 @@ footer a:hover{text-decoration:underline}
       <a class="btn btn-primary" href="/registrieren?beta=1">Beta-Platz anfragen</a>
       <a class="btn btn-secondary" href="/registrieren">14 Tage testen, ohne Karte</a>
     </div>
-    <p class="small">Sie wollen erst hineinsehen: Das Kontrollblatt für die Regelkontrolle gibt es als PDF zum Ausdrucken, kostenlos und ohne Anmeldung — <a href="/kontrollblatt.pdf" style="color:#B9A9FF">Kontrollblatt herunterladen</a>.</p>
+    <!-- Der Lead-Magnet (Kontrollblatt als PDF) ist noch nicht erstellt. Bis dahin fuehrt
+         der Weg ueber eine E-Mail, statt auf eine Datei zu verlinken, die es nicht gibt.
+         Sobald das PDF vorliegt: href auf /kontrollblatt.pdf aendern. -->
+    <p class="small">Sie wollen erst hineinsehen: Das Kontrollblatt für die Regelkontrolle schicken wir Ihnen als PDF zum Ausdrucken, kostenlos und ohne Anmeldung — <a href="mailto:kontakt@baumakte.de?subject=Kontrollblatt%20anfordern" style="color:#B9A9FF">Kontrollblatt anfordern</a>.</p>
   </div>
 </section>
 

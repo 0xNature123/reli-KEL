@@ -23,7 +23,12 @@ export const PLANS: Record<PlanKey, PlanDef> = {
     yearlyCents: 46800,
     maxTrees: 750,
     maxUsers: 1,
-    features: ["1 Nutzer", "bis 750 Baeume", "Bericht mit eigenem Logo", "Offline-Betrieb"],
+    features: [
+      "1 Nutzer",
+      "bis 750 Baeume",
+      "Bericht mit eigenem Logo",
+      "CSV-Export des Bestands",
+    ],
     selfService: true,
   },
   betrieb: {
